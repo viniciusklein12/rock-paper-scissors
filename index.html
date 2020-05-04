@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock, paper, scissors</title>
+</head>
+<script>
+    const computerPlay = () => {
+        let rng = Math.random()
+        if (rng <= 1/3){
+            return 'Rock'
+        }
+        else if (rng > 1/3 && rng <= 2/3 ){
+            return 'Paper'
+        } else {
+            return 'Scissors'
+        }
+    }
+
+    const playRound = (playerSelection, computerSelection) => {
+        let playerSelctionLowercase = playerSelection.toLowerCase();
+        let computerSelectionLowercase = computerSelection.toLowerCase();
+
+        if (playerSelctionLowercase == computerSelectionLowercase) {
+            return 'We have a draw!'
+        }
+        else if (playerSelctionLowercase == 'rock' && computerSelectionLowercase == 'paper') {
+            return 'You lose! Paper beats Rock.'
+        }
+        else if (playerSelctionLowercase == 'rock' && computerSelectionLowercase == 'scissors') {
+            return 'You won! Rock beats Scissors.'
+        }
+        else if (playerSelctionLowercase == 'paper' && computerSelectionLowercase == 'rock') {
+            return 'You won! Paper beats Rock.'
+        }
+        else if (playerSelctionLowercase == 'paper' && computerSelectionLowercase == 'scissors') {
+            return 'You lose! Scissors beats Paper.'
+        }
+        else if (playerSelctionLowercase == 'scissors' && computerSelectionLowercase == 'paper') {
+            return 'You won! Scissors beats Paper.'
+        }
+        else if (playerSelctionLowercase == 'scissors' && computerSelectionLowercase == 'rock') {
+            return 'You lose! Rock beats Scissors.'
+        }else {
+            return "You didn't enter a valid player selection!"
+        }
+        }
+
+    const game = () => {
+        let counter = 1;
+
+        while (counter <=5) {
+            let playerSelection = window.prompt(`Enter your selection for round ${counter}.`);
+            let computerSelection = computerPlay();
+            console.log(playRound(playerSelection, computerSelection));
+            counter += 1
+        }
+    }
+
+    game()
+
+</script>
+</html>
