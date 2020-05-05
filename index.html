@@ -3,7 +3,30 @@
 <head>
     <title>Rock, paper, scissors</title>
 </head>
+<body>
+    <div>
+        <button class="start">Start Game</button>
+    </div>
+    <div>
+        <p>Computer selection:</p>
+        <p class="computer-selection"></p>
+    </div>
+    <div>
+        <button class="rock">Rock</button>
+        <button class="paper">Paper</button>
+        <button class="scissors">Scissors</button>
+    </div>
+    <div>
+        <p class="result"></p>
+    </div>
+</body>
 <script>
+    const computerSelectionDisplay = document.querySelector('.computer-selection');
+    const startGameButton = document.querySelector('.start');
+    const rockButton = document.querySelector('.rock');
+    const paperButton = document.querySelector('.paper');
+    const scissorsButton = document.querySelector('.scissors')
+
     const computerPlay = () => {
         let rng = Math.random()
         if (rng <= 1/3){
@@ -45,18 +68,34 @@
         }
         }
 
-    const game = () => {
-        let counter = 1;
+    const game = (computerSelection) => {
 
-        while (counter <=5) {
-            let playerSelection = window.prompt(`Enter your selection for round ${counter}.`);
-            let computerSelection = computerPlay();
-            console.log(playRound(playerSelection, computerSelection));
-            counter += 1
+        rockButton.onclick = () => {
+            console.log(playRound('rock', computerSelection));
+            computerSelection = computerPlay()
+            computerSelectionDisplay.textContent = computerSelection;
         }
+        paperButton.onclick = () => {
+            console.log(playRound('paper', computerSelection));
+            computerSelection = computerPlay()
+            computerSelectionDisplay.textContent = computerSelection;
+        }
+        scissorsButton.onclick = () => {
+            console.log(playRound('scissors', computerSelection));
+            computerSelection = computerPlay()
+            computerSelectionDisplay.textContent = computerSelection;
+        }
+        
     }
 
-    game()
+    startGameButton.onclick = () => {
+        let computerSelection = computerPlay();
+        computerSelectionDisplay.textContent = computerSelection;
+        game(computerSelection)
+
+
+}
 
 </script>
+
 </html>
