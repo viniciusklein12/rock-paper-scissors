@@ -17,7 +17,10 @@
         <button class="scissors">Scissors</button>
     </div>
     <div>
-        <p class="result"></p>
+        <p>Player</p>
+        <p class="player-result"></p>
+        <p>Computer</p>
+        <P class="computer-result"></P>
     </div>
 </body>
 <script>
@@ -26,6 +29,8 @@
     const rockButton = document.querySelector('.rock');
     const paperButton = document.querySelector('.paper');
     const scissorsButton = document.querySelector('.scissors')
+    const playerResult = document.querySelector('.player-result')
+    const computerResult = document.querySelector('.computer-result')
 
     const computerPlay = () => {
         let rng = Math.random()
@@ -40,60 +45,68 @@
     }
 
     const playRound = (playerSelection, computerSelection) => {
-        let playerSelctionLowercase = playerSelection.toLowerCase();
+        let playerSelectionLowercase = playerSelection.toLowerCase();
         let computerSelectionLowercase = computerSelection.toLowerCase();
+        let result = {player: 0, computer: 0};
 
-        if (playerSelctionLowercase == computerSelectionLowercase) {
-            return 'We have a draw!'
+        if (playerSelectionLowercase == computerSelectionLowercase) {
+            return result
         }
-        else if (playerSelctionLowercase == 'rock' && computerSelectionLowercase == 'paper') {
-            return 'You lose! Paper beats Rock.'
+        else if (
+            playerSelectionLowercase == 'rock' && computerSelectionLowercase == 'paper' ||
+            playerSelectionLowercase == 'paper' && computerSelectionLowercase == 'scissors' ||
+            playerSelectionLowercase == 'scissors' && computerSelectionLowercase == 'rock'
+        ){
+            result.computer = 1
+            return result
         }
-        else if (playerSelctionLowercase == 'rock' && computerSelectionLowercase == 'scissors') {
-            return 'You won! Rock beats Scissors.'
-        }
-        else if (playerSelctionLowercase == 'paper' && computerSelectionLowercase == 'rock') {
-            return 'You won! Paper beats Rock.'
-        }
-        else if (playerSelctionLowercase == 'paper' && computerSelectionLowercase == 'scissors') {
-            return 'You lose! Scissors beats Paper.'
-        }
-        else if (playerSelctionLowercase == 'scissors' && computerSelectionLowercase == 'paper') {
-            return 'You won! Scissors beats Paper.'
-        }
-        else if (playerSelctionLowercase == 'scissors' && computerSelectionLowercase == 'rock') {
-            return 'You lose! Rock beats Scissors.'
-        }else {
-            return "You didn't enter a valid player selection!"
+        else if (
+            playerSelectionLowercase == 'rock' && computerSelectionLowercase == 'scissors' ||
+            playerSelectionLowercase == 'paper' && computerSelectionLowercase == 'rock' ||
+            playerSelectionLowercase == 'scissors' && computerSelectionLowercase == 'paper'
+            ){
+            result.player = 1
+            return result
         }
         }
+
+    const gameRound = (playerSelection, computerSelection) => {
+        let roundResult;
+        roundResult = playRound(playerSelection, computerSelection);
+        playerResult.textContent = parseInt(playerResult.textContent) + roundResult.player;
+        computerResult.textContent = parseInt(computerResult.textContent) + roundResult.computer;
+        if (parseInt(playerResult.textContent) + parseInt(computerResult.textContent) == 5){
+            console.log('finish');
+            return
+    }
+    }
 
     const game = (computerSelection) => {
+        let roundResult;
 
         rockButton.onclick = () => {
-            console.log(playRound('rock', computerSelection));
-            computerSelection = computerPlay()
+            gameRound('rock', computerSelection);
+            computerSelection = computerPlay();
             computerSelectionDisplay.textContent = computerSelection;
         }
         paperButton.onclick = () => {
-            console.log(playRound('paper', computerSelection));
-            computerSelection = computerPlay()
+            gameRound('paper', computerSelection);
+            computerSelection = computerPlay();
             computerSelectionDisplay.textContent = computerSelection;
         }
         scissorsButton.onclick = () => {
-            console.log(playRound('scissors', computerSelection));
-            computerSelection = computerPlay()
+            gameRound('scissors', computerSelection);
+            computerSelection = computerPlay();
             computerSelectionDisplay.textContent = computerSelection;
         }
-        
     }
 
     startGameButton.onclick = () => {
         let computerSelection = computerPlay();
         computerSelectionDisplay.textContent = computerSelection;
-        game(computerSelection)
-
-
+        playerResult.textContent = 0;
+        computerResult.textContent = 0;
+        game(computerSelection);
 }
 
 </script>
