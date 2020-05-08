@@ -2,35 +2,56 @@
 <html>
 <head>
     <title>Rock, paper, scissors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
 <body>
-    <div>
-        <button class="start">Start Game</button>
+    <div class="container" style="margin-top: 100pt;">
+        <div class="row">
+            <div class="col s12 center">
+                <button class="waves-effect waves-light btn" id="start">Start Game</button>
+            </div>
+        </div>
+    
+    <div id="game" class="row" style="opacity: 0">
+
+        <div class="col s12 center">
+            <p>Computer selection:</p>
+            <p id="computer-selection"></p>
+        </div>
+
+        <div class="row">
+            <div class="col s4 center">
+                <button class="waves-effect waves-light btn" id="rock">Rock</button>
+            </div>
+            <div class="col s4 center">
+                <button class="waves-effect waves-light btn" id="paper">Paper</button>
+            </div>
+            <div class="col s4 center">
+                <button class="waves-effect waves-light btn" id="scissors">Scissors</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6 center">
+                <p>Player</p>
+                <p id="player-result"></p>
+            </div>
+            <div class="s6 center">
+                <p>Computer</p>
+                <P id="computer-result"></P>
+            </div>
+        </div>
     </div>
-    <div>
-        <p>Computer selection:</p>
-        <p class="computer-selection"></p>
-    </div>
-    <div>
-        <button class="rock">Rock</button>
-        <button class="paper">Paper</button>
-        <button class="scissors">Scissors</button>
-    </div>
-    <div>
-        <p>Player</p>
-        <p class="player-result"></p>
-        <p>Computer</p>
-        <P class="computer-result"></P>
-    </div>
+</div>
 </body>
 <script>
-    const computerSelectionDisplay = document.querySelector('.computer-selection');
-    const startGameButton = document.querySelector('.start');
-    const rockButton = document.querySelector('.rock');
-    const paperButton = document.querySelector('.paper');
-    const scissorsButton = document.querySelector('.scissors')
-    const playerResult = document.querySelector('.player-result')
-    const computerResult = document.querySelector('.computer-result')
+    const computerSelectionDisplay = document.getElementById('computer-selection');
+    const startGameButton = document.getElementById('start');
+    const rockButton = document.getElementById('rock');
+    const paperButton = document.getElementById('paper');
+    const scissorsButton = document.getElementById('scissors');
+    const playerResult = document.getElementById('player-result');
+    const computerResult = document.getElementById('computer-result');
+    const gameElement = document.getElementById('game')
 
     const computerPlay = () => {
         let rng = Math.random()
@@ -76,9 +97,21 @@
         playerResult.textContent = parseInt(playerResult.textContent) + roundResult.player;
         computerResult.textContent = parseInt(computerResult.textContent) + roundResult.computer;
         if (parseInt(playerResult.textContent) + parseInt(computerResult.textContent) == 5){
-            console.log('finish');
+            let finalResult = {player: parseInt(playerResult.textContent), computer: parseInt(computerResult.textContent)}
+            endGame(finalResult);
             return
     }
+    }
+
+    const endGame = (finalResult) => {
+        
+        if (finalResult.player > finalResult.computer) {
+            alert("You Won!")
+        } else {
+            alert("You Lost!")
+        }
+        location.reload();
+        return false;
     }
 
     const game = (computerSelection) => {
@@ -102,6 +135,7 @@
     }
 
     startGameButton.onclick = () => {
+        gameElement.style.opacity = "1"
         let computerSelection = computerPlay();
         computerSelectionDisplay.textContent = computerSelection;
         playerResult.textContent = 0;
