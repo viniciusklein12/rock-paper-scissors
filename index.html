@@ -8,36 +8,48 @@
     <div class="container" style="margin-top: 100pt;">
         <div class="row">
             <div class="col s12 center">
-                <button class="waves-effect waves-light btn" id="start">Start Game</button>
+                <button class="waves-effect waves-light btn indigo lighten-1" id="start">Start Game</button>
             </div>
         </div>
     
-    <div id="game" class="row" style="opacity: 0">
-
-        <div class="col s12 center">
-            <p>Computer selection:</p>
-            <p id="computer-selection"></p>
-        </div>
+    <div id="game" class="container" style="opacity: 0">
 
         <div class="row">
-            <div class="col s4 center">
-                <button class="waves-effect waves-light btn" id="rock">Rock</button>
+            <div class="col s12 m6">
+                <div class="card indigo lighten-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Your Selection</span>
+                        <button class="waves-effect waves-light btn orange darken-4" id="rock">Rock</button>
+                        <button class="waves-effect waves-light btn orange darken-4" id="paper">Paper</button>
+                        <button class="waves-effect waves-light btn orange darken-4" id="scissors">Scissors</button>
+                    </div>   
+                </div>  
             </div>
-            <div class="col s4 center">
-                <button class="waves-effect waves-light btn" id="paper">Paper</button>
-            </div>
-            <div class="col s4 center">
-                <button class="waves-effect waves-light btn" id="scissors">Scissors</button>
+            
+            <div class="col s12 m6">
+                <div class="card indigo lighten-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Computer Selection</span>
+                        <p id="computer-selection"></p>
+                    </div>   
+                </div>  
             </div>
         </div>
+
         <div class="row">
             <div class="col s6 center">
-                <p>Player</p>
-                <p id="player-result"></p>
+                <p style="font-size: 25pt;">Player</p>
+                <p id="player-result" style="font-size: 25pt;"></p>
             </div>
-            <div class="s6 center">
-                <p>Computer</p>
-                <P id="computer-result"></P>
+            
+            <div class="col s6 center">
+                <p style="font-size: 25pt;">Computer</p>
+                <P id="computer-result" style="font-size: 25pt;"></P>
+            </div>
+            <div class="row">
+                <div class="col s12 center">
+                    <p id="final-message" style="opacity: 0; font-size: 25pt;"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -52,6 +64,7 @@
     const playerResult = document.getElementById('player-result');
     const computerResult = document.getElementById('computer-result');
     const gameElement = document.getElementById('game')
+    const finalMessage = document.getElementById('final-message')
 
     const computerPlay = () => {
         let rng = Math.random()
@@ -105,13 +118,16 @@
 
     const endGame = (finalResult) => {
         
+        
         if (finalResult.player > finalResult.computer) {
-            alert("You Won!")
+            finalMessage.textContent = 'Congratulations, you won!'
         } else {
-            alert("You Lost!")
+            finalMessage.textContent = 'You lost!'
         }
-        location.reload();
-        return false;
+        finalMessage.style.opacity = "1"
+        rockButton.disabled = true
+        paperButton.disabled = true
+        scissorsButton.disabled = true
     }
 
     const game = (computerSelection) => {
@@ -135,8 +151,12 @@
     }
 
     startGameButton.onclick = () => {
-        gameElement.style.opacity = "1"
         let computerSelection = computerPlay();
+        gameElement.style.opacity = "1"
+        finalMessage.style.opacity = "0"
+        rockButton.disabled = false
+        paperButton.disabled = false
+        scissorsButton.disabled = false
         computerSelectionDisplay.textContent = computerSelection;
         playerResult.textContent = 0;
         computerResult.textContent = 0;
